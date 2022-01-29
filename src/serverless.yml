@@ -1,0 +1,51 @@
+service: do-math
+frameworkVersion: '2'
+
+provider:
+  name: aws
+  runtime: python3.8
+  lambdaHashingVersion: 20201221
+  memorySize: 512
+  timeout: 3
+
+  iamRoleStatements:
+    - Effect: "Allow"
+      Action:
+        - "ssm:GetParameter"
+        - "s3:GetObject"
+      Resource:
+        - "arn:aws:ssm:us-east-1:756114516798:parameter/math-institute-key"
+        - "arn:aws:s3:::bad-math-ctf/system/*"
+
+functions:
+  calculator:
+    handler: app.handle_calculator_http
+    events: # The Events that trigger this Function
+      - http: # This creates an API Gateway HTTP endpoint which can be used to trigger this function.  Learn more in "events/apigateway"
+          path: calculator # Path for this endpoint
+          method: any # HTTP method for this endpoint
+          cors: true
+  get_hint:
+    handler: app.get_hint
+    events: # The Events that trigger this Function
+      - http: # This creates an API Gateway HTTP endpoint which can be used to trigger this function.  Learn more in "events/apigateway"
+          path: hint # Path for this endpoint
+          method: get # HTTP method for this endpoint
+          cors: true 
+plugins:
+  - serverless-python-requirements
+  - serverless-domain-manager
+custom:
+  customDomain:
+    route53Region: us-east-1
+    route53Profile: sweetroll
+    domainName: "app.cloud-logon.com"
+    stage: ${opt:stage,'dev'}
+    basePath: ${opt:stage,'dev'}
+    certificateName: "cloud-logon.com"
+    endpointType: "regional"
+    securityPolicy: tls_1_2
+    createRoute53Record: true
+    apiType: rest
+    hostedZoneId: Z0936486U9I7WI3LEKL9
+    autoDomain: true
