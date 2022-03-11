@@ -1,5 +1,4 @@
 service: do-math
-frameworkVersion: '2'
 
 provider:
   name: aws
@@ -38,7 +37,7 @@ plugins:
 custom:
   customDomain:
     route53Region: us-east-1
-    route53Profile: sweetroll
+    route53Profile: default
     domainName: "app.cloud-logon.com"
     stage: ${opt:stage,'dev'}
     basePath: ${opt:stage,'dev'}

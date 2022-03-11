@@ -35,7 +35,7 @@ def handle_calculator_http(event, context):
 def get_calculator():
     html_body = """
     {}
-    <h1>sugar security unhackable calculator</h1>
+    <h1>unhackable calculator</h1>
     <form action="calculator" method="post">
         <label for="submission">what would you like us to calculate?</label><br>
         <input type="text" id="submission" name="submission"><br>
@@ -56,7 +56,7 @@ def do_math(submission, debug=False):
         pass
     # TODO - pass logs to the math institute DB, needs math-institute-key from SSM 
     html_body = """
-    <h1>sugar security unhackable calculator</h1>
+    <h1>unhackable calculator</h1>
     <h3>result: {}
     <form action="calculator" method="post">
         <label for="submission">what would you like us to calculate?</label><br>
